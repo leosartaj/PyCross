@@ -1,6 +1,6 @@
+import TTTBoard
 import random
 
-NTRIALS = 100  # Number of trials to run
 MCMATCH = 1.0  # Score for squares played by the machine player
 MCOTHER = 1.0  # Score for squares played by the other player
 
@@ -26,7 +26,7 @@ def mc_trial(board, player):
         box = random.randrange(leng)
         row = empty[box][0]
         col = empty[box][1]
-        board.move(row, col, player)
+        board.move(player, row, col)
         result = board.check_win()
         if result != None:
             return 
@@ -91,3 +91,44 @@ def mc_move(board, player, trials):
         mc_update_scores(scores, copy_board, player)
     return get_best_move(board, scores)
 
+def play_terminal(dim, mc_move, trials):
+    board = TTTBoard.TTTBoard(dim)
+    while True:
+        try:
+            other = raw_input("You are O or X [O/X] --> ")
+        except:
+            return
+        if other == X or other == O:
+            break
+    player = switch_player(other)
+    while True:
+        if format_result(board, player):
+            return
+        move = mc_move(board, player, trials)
+        board.move(player, move[0], move[1])
+        if format_result(board, player):
+            return
+        print board
+        while True:
+            try:
+                orow = input("[row] --> ")
+                ocol = input("[col] --> ")
+            except:
+                return
+            if board.square(orow, ocol) == EMPTY:
+                break
+            print ''
+        board.move(other, orow, ocol)
+
+def format_result(board, player):
+    result = board.check_win()
+    if result != None:
+        if result == EMPTY:
+            print "\nIts a draw"
+        elif result == player:
+            print "\nMachine wins!"
+        else:
+            print "\nYou win!"
+        print board
+        return True
+    return False

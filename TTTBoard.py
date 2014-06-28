@@ -1,3 +1,4 @@
+import copy
 EMPTY = '_'
 X = 'X'
 O = 'O'
@@ -10,7 +11,7 @@ class TTTBoard:
         self.board = board
 
     def __str__(self):
-        board = 'current board\n'
+        board = '\n'
         for dummy_row in range(self.dim):
             for dummy_col in range(self.dim):
                 board += str(self.board[dummy_row][dummy_col]) + ' '
@@ -55,10 +56,12 @@ class TTTBoard:
             player = self.square(0, dummy_col)
             if player == EMPTY:
                 continue
+            win = 1
             for dummy_row in range(1, self.dim):
                 if self.square(dummy_row, dummy_col) != player:
+                    win = 0
                     break
-            if dummy_row == self.dim:
+            if win == 1:
                 return player
         return None
 
@@ -67,10 +70,12 @@ class TTTBoard:
             player = self.square(dummy_row, 0)
             if player == EMPTY:
                 continue
+            win = 1
             for dummy_col in range(1, self.dim):
                 if self.square(dummy_row, dummy_col) != player:
+                    win = 0
                     break
-            if dummy_col == self.dim:
+            if win == 1:
                 return player
         return None
 
@@ -100,14 +105,21 @@ class TTTBoard:
         return None
 
     def clone(self):
-        pass
+        clo = copy.deepcopy(self)
+        return clo
 
 #board = TTTBoard()
 #board = TTTBoard(3, [[O, O, O], [X, X, EMPTY], [EMPTY, EMPTY, EMPTY]])
 #board = TTTBoard(3, [[O, EMPTY, EMPTY], [O, X, EMPTY], [O, X, EMPTY]])
 #board = TTTBoard(3, [[X, O, O], [EMPTY, X, O], [EMPTY, EMPTY, X]])
 #board = TTTBoard(3, [[X, O, O], [EMPTY, O, X], [O, EMPTY, EMPTY]])
+#board = TTTBoard(3, [[X, EMPTY, X], [O, O, O], [EMPTY, X, X]])
+#board.move(X, 0, 1)
+#copy = board.clone()
 #print board
+#print board.check_win()
+#copy.move(X, 0, 0)
+#print copy
 
 
 
