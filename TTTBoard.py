@@ -1,9 +1,14 @@
 import copy
+
 EMPTY = '_'
 X = 'X'
 O = 'O'
 
 class TTTBoard:
+    """
+    Initializes a TicTacToe board
+    Provides various helper functions
+    """
     def __init__(self, dim = 3, board = None):
         self.dim = dim
         if board == None:
@@ -25,6 +30,7 @@ class TTTBoard:
         return self.board[row][col]
 
     def get_empty_squares(self):
+# returns a list of form (row, col) of empty squares
         empty = []
         for dummy_row in range(self.dim):
             for dummy_col in range(self.dim):
@@ -37,6 +43,7 @@ class TTTBoard:
             self.board[row][col] = player
 
     def check_win(self):
+# gives the result [None|X|O|EMPTY]
         leng = self.get_empty_squares()
         if len(leng) == 0:
             return EMPTY
@@ -105,21 +112,6 @@ class TTTBoard:
         return None
 
     def clone(self):
+# clones the board object
         clo = copy.deepcopy(self)
         return clo
-
-#board = TTTBoard()
-#board = TTTBoard(3, [[O, O, O], [X, X, EMPTY], [EMPTY, EMPTY, EMPTY]])
-#board = TTTBoard(3, [[O, EMPTY, EMPTY], [O, X, EMPTY], [O, X, EMPTY]])
-#board = TTTBoard(3, [[X, O, O], [EMPTY, X, O], [EMPTY, EMPTY, X]])
-#board = TTTBoard(3, [[X, O, O], [EMPTY, O, X], [O, EMPTY, EMPTY]])
-#board = TTTBoard(3, [[X, EMPTY, X], [O, O, O], [EMPTY, X, X]])
-#board.move(X, 0, 1)
-#copy = board.clone()
-#print board
-#print board.check_win()
-#copy.move(X, 0, 0)
-#print copy
-
-
-

@@ -1,12 +1,12 @@
-import TTTBoard
 import random
+
+# Useful constants
+from TTTBoard import EMPTY
+from TTTBoard import X
+from TTTBoard import O
 
 MCMATCH = 1.0  # Score for squares played by the machine player
 MCOTHER = 1.0  # Score for squares played by the other player
-
-EMPTY = TTTBoard.EMPTY
-X = TTTBoard.X
-O = TTTBoard.O
 
 def switch_player(player):
     if player == X:
@@ -82,6 +82,7 @@ def get_best_move(board, scores):
 def mc_move(board, player, trials):
     """
     returns the best possible move
+    after collecting data over N trials
     """
     dim = board.get_dim()
     scores = [ [0 for dummy_cou in range(dim)] for dummy_cou2 in range(dim)] 
@@ -90,45 +91,3 @@ def mc_move(board, player, trials):
         mc_trial(copy_board, player)
         mc_update_scores(scores, copy_board, player)
     return get_best_move(board, scores)
-
-def play_terminal(dim, mc_move, trials):
-    board = TTTBoard.TTTBoard(dim)
-    while True:
-        try:
-            other = raw_input("You are O or X [O/X] --> ")
-        except:
-            return
-        if other == X or other == O:
-            break
-    player = switch_player(other)
-    while True:
-        if format_result(board, player):
-            return
-        move = mc_move(board, player, trials)
-        board.move(player, move[0], move[1])
-        if format_result(board, player):
-            return
-        print board
-        while True:
-            try:
-                orow = input("[row] --> ")
-                ocol = input("[col] --> ")
-            except:
-                return
-            if board.square(orow, ocol) == EMPTY:
-                break
-            print ''
-        board.move(other, orow, ocol)
-
-def format_result(board, player):
-    result = board.check_win()
-    if result != None:
-        if result == EMPTY:
-            print "\nIts a draw"
-        elif result == player:
-            print "\nMachine wins!"
-        else:
-            print "\nYou win!"
-        print board
-        return True
-    return False
