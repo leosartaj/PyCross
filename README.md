@@ -41,3 +41,6 @@ python2 simulate.py
 cd ~/[TicTacToeRepo]
 ./simulate.py
 ```
+
+## Simulation Data
+To collect data over n simulations use simulateData.py just like simulate.py

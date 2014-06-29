@@ -60,11 +60,12 @@ def format_result(board, player):
         return True
     return False
 
-def simulate_terminal(dim, player, mc_move, trials):
+def simulate_terminal(dim, mc_move, trials):
     """
     simulates the game on a terminal
     """
     board = TTTBoard.TTTBoard(dim)
+    player = X
     other = switch_player(player)
     while True:
         if sim_result(board):
@@ -86,5 +87,35 @@ def sim_result(board):
         else:
             print "\n", result,  "wins!"
         print board
+        return True
+    return False
+
+def simulate_data(dim, data_trials, mc_move, trials):
+    """
+    simulates the game on a terminal
+    """
+    player = X
+    other = switch_player(player)
+    count = {EMPTY: 0, X: 0, O: 0}
+    for cou in range(data_trials):
+        board = TTTBoard.TTTBoard(dim)
+        while True:
+            if data_result(board, count):
+                break
+            move = mc_move(board, player, trials)
+            board.move(player, move[0], move[1])
+            if data_result(board, count):
+                break
+            move = mc_move(board, other, trials)
+            board.move(other, move[0], move[1])
+    print 'Total games =', data_trials
+    print 'X wins = ', count[X]
+    print 'O wins = ', count[O]
+    print 'Draws = ', count[EMPTY]
+
+def data_result(board, count):
+    result = board.check_win()
+    if result != None:
+        count[result] += 1
         return True
     return False

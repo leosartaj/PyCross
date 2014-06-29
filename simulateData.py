@@ -12,6 +12,10 @@ import helper
 
 def main():
     try:
+        trials = input("Enter number of simulation trials --> ")
+    except:
+        return
+    try:
         NTRIALS = input("Enter number of trials --> ")
     except:
         return
@@ -23,7 +27,7 @@ def main():
 # simulates the game on a terminal
     while True:
         try:
-            play.simulate_terminal(dim, helper.mc_move, NTRIALS)
+            play.simulate_data(dim, trials, helper.mc_move, NTRIALS)
         except:
             return
         try:
@@ -35,4 +39,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
 
