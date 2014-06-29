@@ -1,6 +1,6 @@
 # README
 
-Clone of famous game Tic Tac Toe, based on the principals of Monte Carlo Simulation. The game is based on python 2.7.
+Clone of famous game Tic Tac Toe, based on the principals of Monte Carlo Simulation. This game is based on python 2.7.
 
 ## Downloading
 
@@ -18,7 +18,7 @@ cd ~/[TicTacToeRepo]
 python2 TicTacToe_ter.py
 ```
 
-### OR
+#### OR
 
 ```
 cd ~/[TicTacToeRepo]
@@ -35,7 +35,7 @@ cd ~/[TicTacToeRepo]
 python2 simulate.py
 ```
 
-### OR
+#### OR
 
 ```
 cd ~/[TicTacToeRepo]
