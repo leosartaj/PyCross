@@ -1,3 +1,10 @@
+## TicTacToe
+# https://github.com/leosartaj/TicTacToe.git
+#
+# Copyright (c) 2014 Sartaj Singh
+# Licensed under the MIT license.
+##
+
 import random
 
 # Useful constants

@@ -1,3 +1,10 @@
+## TicTacToe
+# https://github.com/leosartaj/TicTacToe.git
+#
+# Copyright (c) 2014 Sartaj Singh
+# Licensed under the MIT license.
+##
+
 import TTTBoard
 from helper import switch_player
 
@@ -53,3 +60,31 @@ def format_result(board, player):
         return True
     return False
 
+def simulate_terminal(dim, player, mc_move, trials):
+    """
+    simulates the game on a terminal
+    """
+    board = TTTBoard.TTTBoard(dim)
+    other = switch_player(player)
+    while True:
+        if sim_result(board):
+            return
+        move = mc_move(board, player, trials)
+        board.move(player, move[0], move[1])
+        if sim_result(board):
+            return
+        print board
+        move = mc_move(board, other, trials)
+        board.move(other, move[0], move[1])
+        print board
+
+def sim_result(board):
+    result = board.check_win()
+    if result != None:
+        if result == EMPTY:
+            print "\nIts a draw"
+        else:
+            print "\n", result,  "wins!"
+        print board
+        return True
+    return False
