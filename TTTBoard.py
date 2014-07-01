@@ -1,4 +1,5 @@
-## TicTacToe
+##
+# TicTacToe
 # https://github.com/leosartaj/TicTacToe.git
 #
 # Copyright (c) 2014 Sartaj Singh
@@ -36,8 +37,7 @@ class TTTBoard:
     def square(self, row, col):
         return self.board[row][col]
 
-    def get_empty_squares(self):
-# returns a list of form (row, col) of empty squares
+    def get_empty_squares(self): # returns a list of form (row, col) of empty squares
         empty = []
         for dummy_row in range(self.dim):
             for dummy_col in range(self.dim):
@@ -49,8 +49,7 @@ class TTTBoard:
         if self.board[row][col] == EMPTY:
             self.board[row][col] = player
 
-    def check_win(self):
-# gives the result [None|X|O|EMPTY]
+    def check_win(self): # gives the result [None|X|O|EMPTY]
         leng = self.get_empty_squares()
         if len(leng) == 0:
             return EMPTY
@@ -118,7 +117,6 @@ class TTTBoard:
                 return player
         return None
 
-    def clone(self):
-# clones the board object
+    def clone(self): # clones the board object
         clo = copy.deepcopy(self)
         return clo

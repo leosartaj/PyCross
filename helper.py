@@ -1,4 +1,5 @@
-## TicTacToe
+##
+# TicTacToe
 # https://github.com/leosartaj/TicTacToe.git
 #
 # Copyright (c) 2014 Sartaj Singh

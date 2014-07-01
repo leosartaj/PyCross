@@ -1,6 +1,7 @@
 #!/usr/bin/env python2
 
-## TicTacToe
+##
+# TicTacToe
 # https://github.com/leosartaj/TicTacToe.git
 #
 # Copyright (c) 2014 Sartaj Singh
@@ -24,12 +25,8 @@ def main():
     except: 
         return
 
-# simulates the game on a terminal
     while True:
-        try:
-            play.simulate_data(dim, trials, helper.mc_move, NTRIALS)
-        except:
-            return
+        play.simulate_data(dim, trials, helper.mc_move, NTRIALS) # simulates the game on a terminal
         try:
             game = raw_input("Another simulation ? [Y/N] --> ")
         except:
@@ -39,5 +36,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-

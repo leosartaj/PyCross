@@ -1,4 +1,5 @@
-## TicTacToe
+##
+# TicTacToe
 # https://github.com/leosartaj/TicTacToe.git
 #
 # Copyright (c) 2014 Sartaj Singh
@@ -25,6 +26,9 @@ def play_terminal(dim, mc_move, trials):
             return
         if other == X or other == O:
             break
+        if other == '':
+            other = O
+            break
     player = switch_player(other)
     while True:
         if format_result(board, player):
@@ -36,8 +40,14 @@ def play_terminal(dim, mc_move, trials):
         print board
         while True:
             try:
-                orow = input("[row] --> ")
-                ocol = input("[col] --> ")
+                orow = raw_input("[row] --> ")
+                if orow == '':
+                    continue
+                ocol = raw_input("[col] --> ")
+                if ocol == '':
+                    continue
+                orow = int(orow)
+                ocol = int(ocol)
             except:
                 return
             if orow > -1 and orow < dim and ocol > -1 and ocol < dim and board.square(orow, ocol) == EMPTY:
@@ -45,9 +55,7 @@ def play_terminal(dim, mc_move, trials):
             print ''
         board.move(other, orow, ocol)
 
-def format_result(board, player):
-# prints the result and returns True if the game is over
-# otherwise returns False
+def format_result(board, player): # prints the result and returns True if the game is over otherwise returns False
     result = board.check_win()
     if result != None:
         if result == EMPTY:
@@ -108,10 +116,13 @@ def simulate_data(dim, data_trials, mc_move, trials):
                 break
             move = mc_move(board, other, trials)
             board.move(other, move[0], move[1])
+    xwin = '(' + str((float(count[X]) / data_trials) * 100) + ')'
+    owin = '(' + str((float(count[O]) / data_trials) * 100) + ')'
+    draw = '(' + str((float(count[EMPTY]) / data_trials) * 100) + ')'
     print 'Total games =', data_trials
-    print 'X wins = ', count[X]
-    print 'O wins = ', count[O]
-    print 'Draws = ', count[EMPTY]
+    print 'X wins = ', count[X], xwin
+    print 'O wins = ', count[O], owin
+    print 'Draws = ', count[EMPTY], draw
 
 def data_result(board, count):
     result = board.check_win()
