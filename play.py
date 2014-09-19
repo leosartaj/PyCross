@@ -40,15 +40,13 @@ def play_terminal(dim, mc_move, trials):
         print board
         while True:
             try:
-                orow = raw_input("[row] --> ")
-                if orow == '':
+                rowcol = raw_input("[row] [col] --> ")
+                rowcol = rowcol.split(' ')
+                if len(rowcol) != 2:
                     continue
-                ocol = raw_input("[col] --> ")
-                if ocol == '':
-                    continue
-                orow = int(orow)
-                ocol = int(ocol)
-            except:
+                orow = int(rowcol[0])
+                ocol = int(rowcol[1])
+            except KeyboardInterrupt:
                 return
             if orow > -1 and orow < dim and ocol > -1 and ocol < dim and board.square(orow, ocol) == EMPTY:
                 break
