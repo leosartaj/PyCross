@@ -1,0 +1,59 @@
+#! /bin/sh
+
+##
+# TicTacToe
+# https://github.com/leosartaj/TicTacToe.git
+#
+# Copyright (c) 2014 Sartaj Singh
+# Licensed under the MIT license.
+##
+
+# installed directory
+INSTALL_DIR='/usr/local/TicTacToe'
+
+help_ttt()
+{
+  echo "Usage: $0 <flag>"
+  echo "Valid flags:"
+  echo "  -h : Displays this help"
+  echo "  -p : play the game"
+  echo "  -s : simulate a game"
+  echo "  -d : simulates games and collects data"
+  exit 1
+}
+
+# If no command-line args, display help and exit
+if [ $# -lt 1 ]; then
+    help_ttt
+fi
+
+# If more than one command line argument, display help and exit
+if [ $# -gt 2 ]; then
+    help_ttt
+fi
+
+# Variables
+TERMINAL=
+SIMULATE=
+SIMULATE_DATA=
+
+# Parse arguments
+while getopts psdh opt
+do
+  case "$opt" in
+      p)  TERMINAL=1;;
+      s)  SIMULATE=1;;
+      d) SIMULATE_DATA=1;;
+      h)  help_ttt;;
+      \?) help_ttt;;
+  esac
+done
+
+
+if [ ! -z "$TERMINAL" ]; then
+    python2.7 "$INSTALL_DIR/TicTacToe_ter.py"
+elif [ ! -z "$SIMULATE" ]; then
+    python2.7 "$INSTALL_DIR/simulate.py"
+elif [ ! -z "$SIMULATE_DATA" ]; then
+    python2.7 "$INSTALL_DIR/simulateData.py"
+fi
