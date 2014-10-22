@@ -1,46 +1,46 @@
 # README
 
-Clone of famous game Tic Tac Toe, based on the principals of Monte Carlo Simulation. This game is based on python 2.7.
+Clone of famous game Tic Tac Toe, based on the principals of Monte Carlo Simulation.
 
-## Downloading
+## Getting Started
+
+Run the following commands to get a copy. 
 
 ```
 # clone the repo
 git clone https://github.com/leosartaj/TicTacToe.git
-```
-
-## Playing
-
-To play on a terminal, follow the following set of instructions
 
 ```
-cd ~/[TicTacToeRepo]
-python2 TicTacToe_ter.py
-```
 
-#### OR
+## Installation
 
-```
-cd ~/[TicTacToeRepo]
-./TicTacToe_ter.py
-```
-
-
-## Simulating
-
-To simulate on a terminal, follow the following set of instructions
+Run the install script to install TicTacToe
 
 ```
-cd ~/[TicTacToeRepo]
-python2 simulate.py
-```
-
-#### OR
+# Installation script
+./install.sh
 
 ```
-cd ~/[TicTacToeRepo]
-./simulate.py
+
+## Uninstalling
+
+Run the uninstall script to uninstall TicTacToe
+
+```
+# Uninstalls TicTacToe
+./uninstall.sh
+
 ```
 
-## Simulation Data
-To collect data over n simulations use simulateData.py just like simulate.py
+## Dependencies
+
+TicTacToe is based on Python 2.7
+
+## Documentation
+
+Run the following command for various options
+
+```
+tictactoe -h
+
+```
