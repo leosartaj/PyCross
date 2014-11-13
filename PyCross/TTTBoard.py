@@ -1,10 +1,14 @@
 ##
-# TicTacToe
-# https://github.com/leosartaj/TicTacToe.git
+# PyCross
+# https://github.com/leosartaj/PyCross.git
 #
 # Copyright (c) 2014 Sartaj Singh
 # Licensed under the MIT license.
 ##
+
+"""
+Contains main board class
+"""
 
 import copy
 

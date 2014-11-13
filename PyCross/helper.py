@@ -1,10 +1,14 @@
 ##
-# TicTacToe
-# https://github.com/leosartaj/TicTacToe.git
+# PyCross
+# https://github.com/leosartaj/PyCross.git
 #
 # Copyright (c) 2014 Sartaj Singh
 # Licensed under the MIT license.
 ##
+
+"""
+Helper functions for tic tac toe
+"""
 
 import random
 
@@ -17,6 +21,9 @@ MCMATCH = 1.0  # Score for squares played by the machine player
 MCOTHER = 1.0  # Score for squares played by the other player
 
 def switch_player(player):
+    """
+    toggle active player
+    """
     if player == X:
         return O
     else:
