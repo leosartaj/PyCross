@@ -35,10 +35,10 @@ def parse_args():
     parser = optparse.OptionParser(usage)
 
     help = "Height of SVG"
-    parser.add_option('--height', type='int', help=help, default=100)
+    parser.add_option('--height', type='int', help=help, default=130)
 
     help = "Width of SVG"
-    parser.add_option('--width', type='int', help=help, default=100)
+    parser.add_option('--width', type='int', help=help, default=130)
 
     options, args = parser.parse_args()
 
@@ -57,8 +57,17 @@ def draw_blank(options, fName='blank.svg'):
     """
     Creates Blank SVG
     """
-    ps  = cairo.SVGSurface(fName, options.height, options.width)
+    height, width = options.height, options.width
+    ps  = cairo.SVGSurface(fName, height, width)
     cr = cairo.Context(ps)
+
+    cr.set_source_rgb(255, 255, 255)
+    cr.rectangle(0, 0, height, width)
+    cr.fill_preserve()
+
+    cr.set_source_rgb(0, 0, 0)
+    cr.set_line_width(10)
+    cr.stroke_preserve()
 
 def draw_cross(options, fName='cross.svg'):
     """
@@ -67,13 +76,19 @@ def draw_cross(options, fName='cross.svg'):
     height, width = options.height, options.width
     ps  = cairo.SVGSurface(fName, options.height, options.width)
     cr = cairo.Context(ps)
+
+    cr.set_source_rgb(255, 255, 255)
+    cr.rectangle(0, 0, height, width)
+    cr.fill_preserve()
+
     cr.set_source_rgb(0, 0, 0)
     cr.set_line_width(10)
-    cr.move_to(0, 0)
-    cr.line_to(height, width)
-    cr.move_to(0, width)
-    cr.line_to(height, 0)
-    cr.stroke()
+    cr.move_to(15, 15)
+    cr.line_to(height - 15, width - 15)
+    cr.move_to(15, width - 15)
+    cr.line_to(height - 15, 15)
+    
+    cr.stroke_preserve()
 
 def draw_circle(options, fName='circle.svg'):
     """
@@ -82,10 +97,16 @@ def draw_circle(options, fName='circle.svg'):
     height, width = options.height, options.width
     ps  = cairo.SVGSurface(fName, options.height, options.width)
     cr = cairo.Context(ps)
+
+
+    cr.set_source_rgb(255, 255, 255)
+    cr.rectangle(0, 0, height, width)
+    cr.fill_preserve()
+
     cr.set_source_rgb(0, 0, 0)
     cr.set_line_width(10)
-    cr.arc(height / 2, width / 2, (height / 2) - 5, 0, 2 * pi)
-    cr.stroke()
+    cr.arc(height / 2, width / 2, (height / 2) - 15, 0, 2 * pi)
+    cr.stroke_preserve()
 
 if __name__ == '__main__':
     options, element = parse_args() # parse the args

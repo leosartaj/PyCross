@@ -43,7 +43,7 @@ class pycrossGUIClass:
         """
         Sets up the signals
         """
-        sig = { 'on_quit_activate': self.close }
+        sig = { 'on_clicked': self.trys }
 
         return sig
 
@@ -59,6 +59,12 @@ class pycrossGUIClass:
         set the appearances, 'cause appearances are good
         """
         pass
+
+    def trys(self, *args):
+        """
+        Handles Destroy Event
+        """
+        print 'Yes'
 
     def close(self, *args):
         """
