@@ -18,7 +18,8 @@ setup(
     license = 'MIT',
     keywords = 'game tic-tac-toe tictactoe play',
     url = 'http://github.com/leosartaj/PyCross',
-    packages=['PyCross'],
+    packages=['PyCross', 'PyCross/gui', 'PyCross/gui', 'PyCross/gui/svg'],
+    package_data={'PyCross/gui/svg': ['*.svg'], 'PyCross/gui': ['*.glade']},
     scripts=['bin/pycross'],
     classifiers=[
         'Development Status :: 3 - Alpha',

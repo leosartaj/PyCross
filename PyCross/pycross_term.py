@@ -8,6 +8,11 @@
 # Licensed under the MIT license.
 ##
 
+"""
+Functions for playing game on a terminal
+Implements the single player version only
+"""
+
 import TTTBoard
 from helper import switch_player, mc_move
 
@@ -16,7 +21,7 @@ EMPTY = TTTBoard.EMPTY
 X = TTTBoard.X
 O = TTTBoard.O
 
-def play_terminal(dim, mc_move, trials):
+def play_terminal(dim, trials):
     """
     Makes the game playable on a terminal
     """

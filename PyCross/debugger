@@ -8,9 +8,40 @@
 # Licensed under the MIT license.
 ##
 
+import optparse
+
+# for gui
 from gui.pycrossGUIClass import pycrossGUIClass
 import gtk
 
+# terminal
+from pycross_term import play_terminal
+
+def parse_args():
+    usage = """usage: %prog [options]
+
+    Run 
+    pycross -h/--help
+    For help
+"""
+
+    parser = optparse.OptionParser(usage)
+
+    help = "Pass the flag to play the terminal version"
+    parser.add_option('--terminal', '-t', action='store_true', help=help, dest='terminal')
+
+    options, args = parser.parse_args()
+
+    if len(args):
+        parser.error('Expecting no arguments')
+
+    return options
+
 if __name__ == '__main__':
-    app = pycrossGUIClass()
-    gtk.main()
+    options = parse_args()
+
+    if options.terminal:
+        play_terminal(3, 10)
+    else:
+        app = pycrossGUIClass()
+        gtk.main()

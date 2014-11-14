@@ -15,9 +15,14 @@ import sys
 # For the GUI
 import gtk
 
-sys.path.insert(0, '../') # allows importing modules from different directory
-import TTTBoard
-from helper import switch_player, mc_move
+try:
+    # For debugging purposes
+    sys.path.insert(0, '../') # allows importing modules from different directory
+    import TTTBoard
+    from helper import switch_player, mc_move
+except ImportError:
+    import PyCross.TTTBoard as TTTBoard
+    from PyCross.helper import switch_player, mc_move
 
 # Useful constants
 EMPTY = TTTBoard.EMPTY
