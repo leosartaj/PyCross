@@ -2,45 +2,37 @@
 
 Clone of famous game Tic Tac Toe, based on the principals of Monte Carlo Simulation.
 
-## Getting Started
-
-Run the following commands to get a copy. 
-
-```
-# clone the repo
-git clone https://github.com/leosartaj/TicTacToe.git
-
-```
-
 ## Installation
 
-Run the install script to install TicTacToe
+PyCross can be installed using pip
 
 ```
-# Installation script
-./install.sh
+pip install PyCross
 
 ```
 
 ## Uninstalling
 
-Run the uninstall script to uninstall TicTacToe
+PyCross can be uninstalled using pip
 
 ```
-# Uninstalls TicTacToe
-./uninstall.sh
+pip uninstall PyCross
 
 ```
-
-## Dependencies
-
-TicTacToe is based on Python 2.7
 
 ## Documentation
 
-Run the following command for various options
+Run the following command to play PyCross
 
 ```
-tictactoe -h
+pycross
 
 ```
+
+Can also be played on a terminal. Run the following command
+
+```
+pycross -t
+
+```
+* Run pycross -h /--help for various options

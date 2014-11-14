@@ -33,7 +33,7 @@ def parse_args():
     options, args = parser.parse_args()
 
     if len(args):
-        parser.error('Expecting no arguments')
+        parser.error('expecting no arguments')
 
     return options
 

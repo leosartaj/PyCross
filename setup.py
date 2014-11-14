@@ -23,7 +23,6 @@ setup(
     scripts=['bin/pycross'],
     classifiers=[
         'Development Status :: 3 - Alpha',
-        'Topic :: Utilities',
         'License :: OSI Approved :: MIT License',
     ],
 )
