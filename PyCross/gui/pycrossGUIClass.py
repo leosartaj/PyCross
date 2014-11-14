@@ -40,6 +40,12 @@ class pycrossGUIClass:
 
         self.window.show_all() # display widgets
 
+        # Scores
+        self.playerscore = 0
+        self.compscore = 0
+        self.drawscore = 0
+        self.updateScoreBoard()
+
     def setup_game(self, trials=10, dim=3):
         """
         Sets up the logical stuff
@@ -47,8 +53,6 @@ class pycrossGUIClass:
         self.board = TTTBoard.TTTBoard(dim)
         self.trials = trials
         self.player = X
-        self.playerscore = 0
-        self.compscore = 0
 
     def find_file(self, fName):
         """
@@ -81,6 +85,7 @@ class pycrossGUIClass:
         Get the required objects
         """
         self.window = self.builder.get_object('mainwindow')
+        self.scoreboard = self.builder.get_object('textview')
         self.cells = self.load_cells()
 
     def load_cells(self):
@@ -144,6 +149,16 @@ class pycrossGUIClass:
         elif winner == EMPTY:
             self.drawscore += 1
 
+    def updateScoreBoard(self):
+        """
+        Updates The Score Board
+        """
+        text = ' Player: ' + str(self.playerscore) + ' Computer: ' + str(self.compscore) + ' Draw: ' + str(self.drawscore)
+
+        scoreboard = self.scoreboard
+        buf = scoreboard.get_buffer()
+        buf.set_text(text)
+
     def canPlay(self):
         """
         Checks if another move is possible
@@ -168,12 +183,14 @@ class pycrossGUIClass:
         """
         self.setup_game()
         self.resetGUI()
+        self.updateScoreBoard() # update the score board
 
     def click(self, widget, event):
         """
         Handles click action
         """
         if not self.canPlay():
+            self.updateScores(self.board.check_win())
             self.reset()
             return
 
