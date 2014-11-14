@@ -10,9 +10,19 @@
 
 # system imports
 import os
+import sys
 
 # For the GUI
 import gtk
+
+sys.path.insert(0, '../') # allows importing modules from different directory
+import TTTBoard
+from helper import switch_player, mc_move
+
+# Useful constants
+EMPTY = TTTBoard.EMPTY
+X = TTTBoard.X
+O = TTTBoard.O
 
 class pycrossGUIClass:
     """ 
@@ -20,22 +30,40 @@ class pycrossGUIClass:
     """
     def __init__(self):
 
+        self.setup_game(50)
+
         self.load_interface() # load the interface
 
         self.save_objects() # save objects
 
-        self.basic_markup() # setup appearances
-
         self.builder.connect_signals(self.setup_signals()) # setup signals
 
         self.window.show_all() # display widgets
+
+    def setup_game(self, trials=10, dim=3):
+        """
+        Sets up the logical stuff
+        """
+        self.board = TTTBoard.TTTBoard(dim)
+        self.trials = trials
+        self.player = X
+        self.playerscore = 0
+        self.compscore = 0
+
+    def find_file(self, fName):
+        """
+        Hack for loading
+        the desired file
+        """
+        fName = os.path.join(os.path.dirname(__file__), fName)
+        return fName
 
     def load_interface(self):
         """
         Loads the interface
         in particular loads the glade file
         """
-        fName = os.path.join(os.path.dirname(__file__), 'pycrossGUI.glade') # hack for loading the glade file
+        fName = self.find_file('pycrossGUI.glade')
         self.builder = gtk.Builder()
         self.builder.add_from_file(fName)
 
@@ -43,7 +71,8 @@ class pycrossGUIClass:
         """
         Sets up the signals
         """
-        sig = { 'on_clicked': self.trys }
+        sig = {  'on_mainwindow_destroy': self.close
+                ,'on_clicked'           : self.click }
 
         return sig
 
@@ -52,19 +81,115 @@ class pycrossGUIClass:
         Get the required objects
         """
         self.window = self.builder.get_object('mainwindow')
-        self.board = self.builder.get_object('board')
+        self.cells = self.load_cells()
 
-    def basic_markup(self):
+    def load_cells(self):
         """
-        set the appearances, 'cause appearances are good
+        Loads The cells
         """
-        pass
+        cells = []
+        k = 1
 
-    def trys(self, *args):
+        for i in range(3):
+            temp = [] # temporary list
+            for j in range(3):
+                name = "eventbox" + str(k)
+                cell = self.builder.get_object(name)
+                temp.append(cell)
+                k += 1
+            cells.append(temp)
+
+        return cells
+            
+    def find_index(self, cell, cells):
         """
-        Handles Destroy Event
+        Finds out the location of a cell
         """
-        print 'Yes'
+        for i in range(3):
+            for j in range(3):
+                if cell == cells[i][j]:
+                    return i, j
+        return None
+
+    def updateGUI(self, player, i, j):
+        """
+        Updates the GUI when a move is made
+        """
+        obj = self.cells[i][j]
+        image = obj.get_children()[0]
+        if player == X:
+            fName = self.find_file('svg/cross.svg')
+        elif player == O:
+            fName = self.find_file('svg/circle.svg')
+        elif player == EMPTY:
+            fName = self.find_file('svg/blank.svg')
+        image.set_from_file(fName)
+        
+    def move_comp(self, comp):
+        """
+        Now Computer makes the deadly move
+        """
+        move = mc_move(self.board, comp, self.trials)
+        self.board.move(comp, move[0], move[1])
+        return move[0], move[1]
+    
+    def updateScores(self, winner):
+        """
+        Update the scores
+        """
+        if winner == X:
+            self.playerscore += 1
+        elif winner == O:
+            self.compscore += 1
+        elif winner == EMPTY:
+            self.drawscore += 1
+
+    def canPlay(self):
+        """
+        Checks if another move is possible
+        """
+        result = self.board.check_win()
+        if result == None:
+            return True
+        return False
+
+    def resetGUI(self):
+        """
+        Resets The board
+        for a new game
+        """
+        for i in range(3):
+            for j in range(3):
+                self.updateGUI(EMPTY, i, j)
+
+    def reset(self):
+        """
+        Resets the game
+        """
+        self.setup_game()
+        self.resetGUI()
+
+    def click(self, widget, event):
+        """
+        Handles click action
+        """
+        if not self.canPlay():
+            self.reset()
+            return
+
+        i, j = self.find_index(widget, self.cells) # get the coordinates
+        if not (i, j) in self.board.get_empty_squares(): # do not move if already moved
+            return
+        self.board.move(self.player, i, j) # make the move
+        self.updateGUI(self.player, i, j) # updates the GUI with the move
+
+        if not self.canPlay():
+            return
+
+        # Computers time
+        comp = switch_player(self.player)
+        ni, nj = self.move_comp(comp) # get the new move coordinates
+        self.updateGUI(comp, ni, nj) 
 
     def close(self, *args):
         """

@@ -98,13 +98,19 @@ def draw_circle(options, fName='circle.svg'):
     ps  = cairo.SVGSurface(fName, options.height, options.width)
     cr = cairo.Context(ps)
 
-
+    # Creates a white filled rectangle
+    # with thick black border
+    cr.new_path()
     cr.set_source_rgb(255, 255, 255)
     cr.rectangle(0, 0, height, width)
     cr.fill_preserve()
-
     cr.set_source_rgb(0, 0, 0)
     cr.set_line_width(10)
+    cr.stroke_preserve()
+
+    # Creates a black thick
+    # circle in the center
+    cr.new_path()
     cr.arc(height / 2, width / 2, (height / 2) - 15, 0, 2 * pi)
     cr.stroke_preserve()
 
