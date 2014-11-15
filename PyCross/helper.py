@@ -74,6 +74,30 @@ def mc_update_scores(scores, board, player):
                 else:
                     scores[cou1][cou2] -= MCOTHER
 
+def stop_win(board, player):
+    """
+    Stops a straight forward win 
+    Tries to win when straight forward
+    everything cannot be left on probability
+    """
+    empty = board.get_empty_squares()
+    other = switch_player(player)
+    for box in empty:
+        if trymove(board, player, box) == player:
+            return box
+        if trymove(board, other, box) == other:
+            return box
+    return None
+
+def trymove(board, player, move):
+    """
+    Try a move
+    returns the result
+    """
+    copy = board.clone()
+    copy.move(player, move[0], move[1])
+    return copy.check_win()
+
 def get_best_move(board, scores):
     """
     returns the best
@@ -99,6 +123,9 @@ def mc_move(board, player, trials):
     returns the best possible move
     after collecting data over N trials
     """
+    stop = stop_win(board, player) # try to stop a straight forward win
+    if stop != None:
+        return stop
     dim = board.get_dim()
     scores = [ [0 for dummy_cou in range(dim)] for dummy_cou2 in range(dim)] 
     for dummy_cou in range(trials):

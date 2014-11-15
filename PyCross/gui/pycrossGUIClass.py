@@ -67,9 +67,9 @@ class pycrossGUIClass:
         """
         Generate predifined diffculty levels
         """
-        easy = 50
-        medium = 200
-        hard = 500
+        easy = 100
+        medium = 300
+        hard = 750
         return {'_Easy': easy, '_Medium': medium, '_Hard': hard}
 
     def find_file(self, fName):
@@ -193,7 +193,7 @@ class pycrossGUIClass:
         """
         Now Computer makes the deadly move
         """
-        trials = randrange(self.trials - 5, self.trials + 5) # make it difficult to predict
+        trials = randrange(self.trials, self.trials + 50) # make it difficult to predict
         move = mc_move(self.board, comp, trials)
         self.board.move(comp, move[0], move[1])
         return move[0], move[1]
