@@ -11,6 +11,7 @@
 # system imports
 import os
 import sys
+from random import randrange
 
 # For the GUI
 import gtk
@@ -35,8 +36,6 @@ class pycrossGUIClass:
     """
     def __init__(self):
 
-        self.setup_game(50)
-
         self.load_interface() # load the interface
 
         self.save_objects() # save objects
@@ -45,19 +44,33 @@ class pycrossGUIClass:
 
         self.window.show_all() # display widgets
 
-        # Scores
+        self.difflevels = self.gen_diff() # generate diffulty levels
+
+        # Constants
+        self.currdiff = '_Easy' # current difficulty level
         self.playerscore = 0
         self.compscore = 0
         self.drawscore = 0
         self.updateScoreBoard()
 
-    def setup_game(self, trials=10, dim=3):
+        self.setup_game()
+
+    def setup_game(self, dim=3):
         """
         Sets up the logical stuff
         """
         self.board = TTTBoard.TTTBoard(dim)
-        self.trials = trials
+        self.trials = self.difflevels[self.currdiff]
         self.player = X
+
+    def gen_diff(self):
+        """
+        Generate predifined diffculty levels
+        """
+        easy = 50
+        medium = 200
+        hard = 500
+        return {'_Easy': easy, '_Medium': medium, '_Hard': hard}
 
     def find_file(self, fName):
         """
@@ -80,10 +93,40 @@ class pycrossGUIClass:
         """
         Sets up the signals
         """
-        sig = {  'on_mainwindow_destroy': self.close
-                ,'on_clicked'           : self.click }
+        sig = { 'on_mainwindow_destroy': self.close
+              , 'on_clicked'           : self.click
+              , 'on_easy_activate'     : self.easy
+              , 'on_medium_activate'   : self.medium
+              , 'on_hard_activate'     : self.hard }
 
         return sig
+
+    def easy(self, menuitem):
+        """
+        Set Easy difficulty
+        """
+        self.setdiff('_Easy')
+
+    def medium(self, menuitem):
+        """
+        Set Medium difficulty
+        """
+        self.setdiff('_Medium')
+
+    def hard(self, menuitem):
+        """
+        Set Hard difficulty
+        """
+        self.setdiff('_Hard')
+
+    def setdiff(self, diff):
+        """
+        Change The difficulty
+        """
+        if self.currdiff != diff:
+            self.currdiff = diff
+            self.setup_game()
+            self.resetGUI()
 
     def save_objects(self):
         """
@@ -92,6 +135,17 @@ class pycrossGUIClass:
         self.window = self.builder.get_object('mainwindow')
         self.scoreboard = self.builder.get_object('textview')
         self.cells = self.load_cells()
+        self.diffmenu = self.load_diffmenu()
+
+    def load_diffmenu(self):
+        """
+        Loads the difficulty menuitems
+        """
+        easy = self.builder.get_object('easy')
+        medium = self.builder.get_object('medium')
+        hard = self.builder.get_object('hard')
+
+        return [easy, medium, hard]
 
     def load_cells(self):
         """
@@ -110,7 +164,7 @@ class pycrossGUIClass:
             cells.append(temp)
 
         return cells
-            
+
     def find_index(self, cell, cells):
         """
         Finds out the location of a cell
@@ -139,7 +193,8 @@ class pycrossGUIClass:
         """
         Now Computer makes the deadly move
         """
-        move = mc_move(self.board, comp, self.trials)
+        trials = randrange(self.trials - 5, self.trials + 5) # make it difficult to predict
+        move = mc_move(self.board, comp, trials)
         self.board.move(comp, move[0], move[1])
         return move[0], move[1]
     

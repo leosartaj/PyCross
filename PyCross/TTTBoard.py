@@ -55,8 +55,6 @@ class TTTBoard:
 
     def check_win(self): # gives the result [None|X|O|EMPTY]
         leng = self.get_empty_squares()
-        if len(leng) == 0:
-            return EMPTY
         player = self._check_col()
         if player != None:
             return player
@@ -66,6 +64,8 @@ class TTTBoard:
         player = self._check_dia()
         if player != None:
             return player
+        if len(leng) == 0:
+            return EMPTY
         return None
 
     def _check_col(self):
