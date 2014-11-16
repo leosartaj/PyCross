@@ -86,7 +86,7 @@ class customDifficultyClass:
             trials = int(buf.get_text())
             if trials > 100 or trials < 1: # do not except invalid number
                 raise ValueError
-            trails  = trials * 10 # for the program
+            trials  = trials * 10 # for the program
             self.parent.setdiff('custom', trials) # change difficulty
             self.close() # close the window
         except ValueError: # inavlid input
