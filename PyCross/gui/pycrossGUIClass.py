@@ -48,9 +48,10 @@ class pycrossGUIClass:
         self.difflevels = self.gen_diff() # generate diffulty levels
 
         # Constants
+        self.mode = 'single'
         self.currdiff = 'easy' # current difficulty level
         self.playerscore = 0
-        self.compscore = 0
+        self.otherscore = 0
         self.drawscore = 0
         self.updateScoreBoard()
 
@@ -91,56 +92,6 @@ class pycrossGUIClass:
         self.builder = gtk.Builder()
         self.builder.add_from_file(fName)
 
-    def setup_signals(self):
-        """
-        Sets up the signals
-        """
-        sig = { 'on_mainwindow_destroy': self.close
-              , 'on_clicked'           : self.click
-              , 'on_easy_activate'     : self.easy
-              , 'on_medium_activate'   : self.medium
-              , 'on_hard_activate'     : self.hard 
-              , 'on_custom_activate'   : self.custom }
-
-        return sig
-
-    def easy(self, menuitem):
-        """
-        Set Easy difficulty
-        """
-        self.setdiff('easy')
-
-    def medium(self, menuitem):
-        """
-        Set Medium difficulty
-        """
-        self.setdiff('medium')
-
-    def hard(self, menuitem):
-        """
-        Set Hard difficulty
-        """
-        self.setdiff('hard')
-
-    def custom(self, menuitem):
-        """
-        Set custom difficulty
-        """
-        if menuitem.get_active():
-            customDifficultyClass(self) # generate custom difficulty box
-
-    def setdiff(self, diff, trials=None):
-        """
-        Change The difficulty
-        """
-        if trials != None:
-            self.difflevels[diff] = trials
-
-        if diff == 'custom' or self.currdiff != diff:
-            self.currdiff = diff
-            self.setup_game()
-            self.resetGUI()
-
     def save_objects(self):
         """
         Get the required objects
@@ -178,6 +129,94 @@ class pycrossGUIClass:
             cells.append(temp)
 
         return cells
+
+    def setup_signals(self):
+        """
+        Sets up the signals
+        """
+        sig = { 'on_mainwindow_destroy'    : self.close
+              , 'on_newgame_activate'      : self.reset
+              , 'on_clicked'               : self.click
+              , 'on_easy_activate'         : self.easy
+              , 'on_medium_activate'       : self.medium
+              , 'on_hard_activate'         : self.hard 
+              , 'on_custom_activate'       : self.custom
+              , 'on_singleplayer_activate' : self.singleplayer
+              , 'on_multiplayer_activate'  : self.multiplayer }
+
+        return sig
+
+    def set_sensitivity(self, item, sen=False):
+        """
+        Iterates over a dictionary
+        sets every objects sensitivity
+        """
+        for obj in item:
+            item[obj].set_sensitive(sen)
+
+    def resetScores(self):
+        """
+        resets all the scores to 0
+        """
+        self.playerscore = 0
+        self.otherscore = 0
+        self.drawscore = 0
+
+    def singleplayer(self, menuitem):
+        """
+        Changes mode to single player
+        """
+        if self.mode != 'single':
+            self.mode = 'single'
+            self.set_sensitivity(self.diffmenu, True)
+            self.resetScores()
+            self.reset()
+
+    def multiplayer(self, menuitem):
+        """
+        Changes mode to multi player
+        """
+        if self.mode != 'multi':
+            self.mode = 'multi'
+            self.set_sensitivity(self.diffmenu, False) # difficulty is meaningless now
+            self.resetScores()
+            self.reset()
+
+    def easy(self, menuitem):
+        """
+        Set Easy difficulty
+        """
+        self.setdiff('easy')
+
+    def medium(self, menuitem):
+        """
+        Set Medium difficulty
+        """
+        self.setdiff('medium')
+
+    def hard(self, menuitem):
+        """
+        Set Hard difficulty
+        """
+        self.setdiff('hard')
+
+    def custom(self, menuitem):
+        """
+        Set custom difficulty
+        """
+        if menuitem.get_active():
+            customDifficultyClass(self) # generate custom difficulty box
+
+    def setdiff(self, diff, trials=None):
+        """
+        Change The difficulty
+        """
+        if trials != None:
+            self.difflevels[diff] = trials
+
+        if diff == 'custom' or self.currdiff != diff:
+            self.currdiff = diff
+            self.reset() # reset the game
 
     def find_index(self, cell, cells):
         """
@@ -219,16 +258,22 @@ class pycrossGUIClass:
         if winner == X:
             self.playerscore += 1
         elif winner == O:
-            self.compscore += 1
+            self.otherscore += 1
         elif winner == EMPTY:
             self.drawscore += 1
+
+    def get_text(self):
+        """
+        Returns text to be written
+        to scoreboard
+        """
+        return ' Player(X): ' + str(self.playerscore) + ' Player(O): ' + str(self.otherscore) + ' Draw: ' + str(self.drawscore)
 
     def updateScoreBoard(self):
         """
         Updates The Score Board
         """
-        text = ' Player: ' + str(self.playerscore) + ' Computer: ' + str(self.compscore) + ' Draw: ' + str(self.drawscore)
-
+        text = self.get_text()
         scoreboard = self.scoreboard
         buf = scoreboard.get_buffer()
         buf.set_text(text)
@@ -251,13 +296,27 @@ class pycrossGUIClass:
             for j in range(3):
                 self.updateGUI(EMPTY, i, j)
 
-    def reset(self):
+    def reset(self, *args):
         """
         Resets the game
         """
         self.setup_game()
         self.resetGUI()
         self.updateScoreBoard() # update the score board
+
+    def move(self, widget, player):
+        """
+        Makes a move
+        updates the board
+        updates the gui
+        does nothing if already moved
+        """
+        i, j = self.find_index(widget, self.cells) # get the coordinates
+        if not (i, j) in self.board.get_empty_squares(): # do not move if already moved
+            return False
+        self.board.move(self.player, i, j) # make the move
+        self.updateGUI(self.player, i, j) # updates the GUI with the move
+        return True
 
     def click(self, widget, event):
         """
@@ -268,19 +327,19 @@ class pycrossGUIClass:
             self.reset()
             return
 
-        i, j = self.find_index(widget, self.cells) # get the coordinates
-        if not (i, j) in self.board.get_empty_squares(): # do not move if already moved
+        if not self.move(widget, self.player):
             return
-        self.board.move(self.player, i, j) # make the move
-        self.updateGUI(self.player, i, j) # updates the GUI with the move
 
         if not self.canPlay():
             return
 
-        # Computers time
-        comp = switch_player(self.player)
-        ni, nj = self.move_comp(comp) # get the new move coordinates
-        self.updateGUI(comp, ni, nj) 
+        if self.mode == 'single':
+            # Computers time
+            comp = switch_player(self.player)
+            ni, nj = self.move_comp(comp) # get the new move coordinates
+            self.updateGUI(comp, ni, nj) 
+        elif self.mode == 'multi':
+            self.player = switch_player(self.player) # switch the current player in multiplayer
 
     def close(self, *args):
         """

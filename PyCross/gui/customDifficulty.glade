@@ -7,6 +7,7 @@
     <property name="border_width">10</property>
     <property name="title" translatable="yes">Custom</property>
     <property name="resizable">False</property>
+    <property name="modal">True</property>
     <signal name="destroy" handler="on_mainwindow_destroy" swapped="no"/>
     <child>
       <object class="GtkVBox" id="vbox1">
