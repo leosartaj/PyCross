@@ -29,10 +29,4 @@ pycross
 
 ```
 
-Can also be played on a terminal. Run the following command
-
-```
-pycross -t
-
-```
 * Run pycross -h /--help for various options
