@@ -21,10 +21,10 @@ try:
     # For debugging purposes
     sys.path.insert(0, '../') # allows importing modules from different directory
     import TTTBoard
-    from helper import switch_player, mc_move
+    from helper import switch_player, mc_move, minimax_move
 except ImportError:
     import PyCross.TTTBoard as TTTBoard
-    from PyCross.helper import switch_player, mc_move
+    from PyCross.helper import switch_player, mc_move, minimax_move
 
 # Useful constants
 EMPTY = TTTBoard.EMPTY
@@ -247,7 +247,12 @@ class pycrossGUIClass:
         Now Computer makes the deadly move
         """
         trials = randrange(self.trials, self.trials + 50) # make it difficult to predict
-        move = mc_move(self.board, comp, trials)
+
+        if len(self.board.get_empty_squares()) != 8 and trials > 750:
+            move = minimax_move(self.board, comp, trials) # just use minimax, no use of trials here
+        else:
+            move = mc_move(self.board, comp, trials)
+
         self.board.move(comp, move[0], move[1])
         return move[0], move[1]
     

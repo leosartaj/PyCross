@@ -10,10 +10,10 @@ def readFile(fName):
 
 setup(
     name = 'PyCross',
-    version = '0.2.1',
+    version = '0.3.0',
     author = 'Sartaj Singh',
     author_email = 'singhsartaj94@gmail.com',
-    description = ('Single Player Tic-Tac-Toe game'),
+    description = ('Singleplayer/Multiplayer Tic-Tac-Toe game'),
     long_description = readFile('README.md'),
     license = 'MIT',
     keywords = 'game tic-tac-toe tictactoe play',

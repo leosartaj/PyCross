@@ -20,6 +20,10 @@ from TTTBoard import O
 MCMATCH = 1.0  # Score for squares played by the machine player
 MCOTHER = 1.0  # Score for squares played by the other player
 
+# SCORING VALUES - DO NOT MODIFY
+# Used for minimax implementation
+SCORES = {X: 1, EMPTY: 0, O: -1}
+
 def switch_player(player):
     """
     toggle active player
@@ -133,3 +137,41 @@ def mc_move(board, player, trials):
         mc_trial(copy_board, player)
         mc_update_scores(scores, copy_board, player)
     return get_best_move(board, scores)
+
+def mm_move(board, player):
+    """
+    Make a move on the board.
+    
+    Returns a tuple with two elements.  The first element is the score
+    of the given board and the second element is the desired move as a
+    tuple, (row, col).
+    """
+    result = board.check_win()
+    if result == X:
+        return SCORES[X], (-1, -1) 
+    elif result == O:
+        return SCORES[O], (-1, -1) 
+    elif result == EMPTY:
+        return SCORES[EMPTY], (-1, -1) 
+    scores, poss = [], []
+    for square in board.get_empty_squares():
+        copy = board.clone()
+        copy.move(player, square[0], square[1])
+        score = mm_move(copy, switch_player(player))
+        scores.append(score[0])
+        poss.append(square)
+    if player == X:
+        mscore = max(scores)
+    else:
+        mscore = min(scores)
+    bpos = poss[scores.index(mscore)]
+    return mscore, bpos
+
+def minimax_move(board, player, trials):
+    """
+    Wrapper to allow the use of the same infrastructure that was used
+    for Monte Carlo Tic-Tac-Toe.
+    """
+    move = mm_move(board, player)
+    assert move[1] != (-1, -1), "returned illegal move (-1, -1)"
+    return move[1]
