@@ -15,6 +15,7 @@ from random import randrange
 
 # For the GUI
 import gtk
+from customDifficultyClass import customDifficultyClass
 
 try:
     # For debugging purposes
@@ -47,7 +48,7 @@ class pycrossGUIClass:
         self.difflevels = self.gen_diff() # generate diffulty levels
 
         # Constants
-        self.currdiff = '_Easy' # current difficulty level
+        self.currdiff = 'easy' # current difficulty level
         self.playerscore = 0
         self.compscore = 0
         self.drawscore = 0
@@ -68,9 +69,10 @@ class pycrossGUIClass:
         Generate predifined diffculty levels
         """
         easy = 100
-        medium = 300
+        medium = 400
         hard = 750
-        return {'_Easy': easy, '_Medium': medium, '_Hard': hard}
+        custom = 1
+        return {'easy': easy, 'medium': medium, 'hard': hard, 'custom': custom}
 
     def find_file(self, fName):
         """
@@ -97,7 +99,8 @@ class pycrossGUIClass:
               , 'on_clicked'           : self.click
               , 'on_easy_activate'     : self.easy
               , 'on_medium_activate'   : self.medium
-              , 'on_hard_activate'     : self.hard }
+              , 'on_hard_activate'     : self.hard 
+              , 'on_custom_activate'   : self.custom }
 
         return sig
 
@@ -105,25 +108,35 @@ class pycrossGUIClass:
         """
         Set Easy difficulty
         """
-        self.setdiff('_Easy')
+        self.setdiff('easy')
 
     def medium(self, menuitem):
         """
         Set Medium difficulty
         """
-        self.setdiff('_Medium')
+        self.setdiff('medium')
 
     def hard(self, menuitem):
         """
         Set Hard difficulty
         """
-        self.setdiff('_Hard')
+        self.setdiff('hard')
 
-    def setdiff(self, diff):
+    def custom(self, menuitem):
+        """
+        Set custom difficulty
+        """
+        if menuitem.get_active():
+            customDifficultyClass(self) # generate custom difficulty box
+
+    def setdiff(self, diff, trials=None):
         """
         Change The difficulty
         """
-        if self.currdiff != diff:
+        if trials != None:
+            self.difflevels[diff] = trials
+
+        if diff == 'custom' or self.currdiff != diff:
             self.currdiff = diff
             self.setup_game()
             self.resetGUI()
@@ -144,8 +157,9 @@ class pycrossGUIClass:
         easy = self.builder.get_object('easy')
         medium = self.builder.get_object('medium')
         hard = self.builder.get_object('hard')
+        custom = self.builder.get_object('custom')
 
-        return [easy, medium, hard]
+        return {'easy': easy, 'medium': medium, 'hard':  hard, 'custom': custom}
 
     def load_cells(self):
         """

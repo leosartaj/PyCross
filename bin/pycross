@@ -17,6 +17,7 @@ import gtk
 # terminal
 from PyCross.pycross_term import play_terminal
 
+    
 def parse_args():
     usage = """usage: %prog [options]
 
@@ -24,7 +25,6 @@ def parse_args():
     pycross -h/--help
     For help
 """
-
     parser = optparse.OptionParser(usage)
 
     help = "Pass the flag to play the terminal version"
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     options = parse_args()
 
     if options.terminal:
-        play_terminal(3, 10)
+        play_terminal(3, 100)
     else:
         app = pycrossGUIClass()
         gtk.main()

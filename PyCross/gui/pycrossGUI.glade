@@ -7,6 +7,7 @@
     <property name="height_request">395</property>
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">PyCross</property>
+    <property name="resizable">False</property>
     <property name="window_position">center-always</property>
     <signal name="destroy" handler="on_mainwindow_destroy" swapped="no"/>
     <child>
@@ -64,6 +65,7 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">_Easy</property>
                         <property name="use_underline">True</property>
+                        <property name="active">True</property>
                         <property name="draw_as_radio">True</property>
                         <signal name="activate" handler="on_easy_activate" swapped="no"/>
                       </object>
@@ -88,6 +90,17 @@
                         <property name="draw_as_radio">True</property>
                         <property name="group">medium</property>
                         <signal name="activate" handler="on_hard_activate" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkRadioMenuItem" id="custom">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">_Custom</property>
+                        <property name="use_underline">True</property>
+                        <property name="draw_as_radio">True</property>
+                        <property name="group">hard</property>
+                        <signal name="activate" handler="on_custom_activate" swapped="no"/>
                       </object>
                     </child>
                   </object>
