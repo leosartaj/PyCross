@@ -17,8 +17,8 @@ from TTTBoard import EMPTY
 from TTTBoard import X
 from TTTBoard import O
 
-MCMATCH = 1.0  # Score for squares played by the machine player
-MCOTHER = 1.0  # Score for squares played by the other player
+MCMATCH = 1.0  # Score for squares played by the machine player 
+MCOTHER = 1.0  # Score for squares played by the other player 
 
 # SCORING VALUES - DO NOT MODIFY
 # Used for minimax implementation
@@ -127,9 +127,6 @@ def mc_move(board, player, trials):
     returns the best possible move
     after collecting data over N trials
     """
-    stop = stop_win(board, player) # try to stop a straight forward win
-    if stop != None:
-        return stop
     dim = board.get_dim()
     scores = [ [0 for dummy_cou in range(dim)] for dummy_cou2 in range(dim)] 
     for dummy_cou in range(trials):

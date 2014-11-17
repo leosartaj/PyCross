@@ -10,7 +10,7 @@ def readFile(fName):
 
 setup(
     name = 'PyCross',
-    version = '0.3.1',
+    version = '0.3.3',
     author = 'Sartaj Singh',
     author_email = 'singhsartaj94@gmail.com',
     description = ('Singleplayer/Multiplayer Tic-Tac-Toe game'),
