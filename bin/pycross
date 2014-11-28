@@ -14,6 +14,11 @@ import optparse
 from PyCross.gui.pycrossGUIClass import pycrossGUIClass
 import gtk
 
+try:
+    from PyCross import __desc__ # try to get version number
+except ImportError:
+    __desc__ = 'UNKNOWN'
+
 def parse_args():
     usage = """usage: %prog [options]
 
@@ -24,7 +29,7 @@ def parse_args():
     pycross -h/--help
     For help
 """
-    parser = optparse.OptionParser(usage)
+    parser = optparse.OptionParser(usage, version=__desc__)
 
     options, args = parser.parse_args()
 

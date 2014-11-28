@@ -1,3 +1,5 @@
+#!/usr/bin/env python2
+
 ##
 # PyCross
 # https://github.com/leosartaj/PyCross.git

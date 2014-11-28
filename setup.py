@@ -1,3 +1,5 @@
+from PyCross import __version__
+
 try:
     from setuptools import setup
 except ImportError:
@@ -10,7 +12,7 @@ def readFile(fName):
 
 setup(
     name = 'PyCross',
-    version = '0.3.3',
+    version = __version__,
     author = 'Sartaj Singh',
     author_email = 'singhsartaj94@gmail.com',
     description = ('Singleplayer/Multiplayer Tic-Tac-Toe game'),
@@ -18,7 +20,7 @@ setup(
     license = 'MIT',
     keywords = 'game tic-tac-toe tictactoe play',
     url = 'http://github.com/leosartaj/PyCross',
-    packages=['PyCross', 'PyCross/gui', 'PyCross/gui', 'PyCross/gui/svg'],
+    packages=['PyCross', 'PyCross/info', 'PyCross/gui', 'PyCross/gui', 'PyCross/gui/svg'],
     package_data={'PyCross/gui/svg': ['*.svg'], 'PyCross/gui': ['*.glade']},
     scripts=['bin/pycross'],
     classifiers=[
