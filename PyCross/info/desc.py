@@ -1,8 +1,8 @@
 #!/usr/bin/env python2
 
 ##
-# sub
-# https://github.com/leosartaj/sub.git
+# PyCross
+# https://github.com/leosartaj/PyCross.git
 #
 # Copyright (c) 2014 Sartaj Singh
 # Licensed under the MIT license.
