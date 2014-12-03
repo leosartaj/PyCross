@@ -26,6 +26,14 @@ MCOTHER = 1.0  # Score for squares played by the other player
 # Used for minimax implementation
 SCORES = {X: 1, EMPTY: 0, O: -1}
 
+if x == 2:
+    pass
+elif x == 3:
+    pass
+else:
+    pass
+
+
 def switch_player(player):
     """
     toggle active player
