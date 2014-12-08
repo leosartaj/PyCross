@@ -8,33 +8,29 @@
 # Licensed under the MIT license.
 ##
 
-import optparse
+import argparse
 
 # for gui
 from gui.pycrossGUIClass import pycrossGUIClass
 import gtk
 
+try:
+    from PyCross import __desc__ # try to get version number
+except ImportError:
+    __desc__ = 'UNKNOWN'
+
 def parse_args():
-    usage = """usage: %prog [options]
+    parser = argparse.ArgumentParser(description='Classic Tic-Tac-Toe game')
 
-    To play, simply run
-    pycross
+    help = "Current version of PyCross"
+    parser.add_argument('--version', '-v',  action='version', help=help, version=__desc__)
 
-    Run 
-    pycross -h/--help
-    For help
-"""
-    parser = optparse.OptionParser(usage)
+    args = parser.parse_args()
 
-    options, args = parser.parse_args()
-
-    if len(args):
-        parser.error('expecting no arguments')
-
-    return options
+    return args
 
 if __name__ == '__main__':
-    options = parse_args()
+    args = parse_args()
 
     app = pycrossGUIClass()
     gtk.main()
