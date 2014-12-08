@@ -1,14 +1,9 @@
 from PyCross import __version__
 
 try:
-    from setuptools import setup
+    from setuptools import setup, find_packages
 except ImportError:
-    from distutils.core import setup
-
-def readFile(fName):
-    with open(fName) as f:
-        lines = f.read()
-    return lines
+    from distutils.core import setup, find_packages
 
 setup(
     name = 'PyCross',
@@ -16,12 +11,12 @@ setup(
     author = 'Sartaj Singh',
     author_email = 'singhsartaj94@gmail.com',
     description = ('Singleplayer/Multiplayer Tic-Tac-Toe game'),
-    long_description = readFile('README.md'),
+    long_description = open('README.rst').read() + '\n\n' + open('CHANGELOG.rst').read(),
     license = 'MIT',
     keywords = 'game tic-tac-toe tictactoe play',
     url = 'http://github.com/leosartaj/PyCross',
-    packages=['PyCross', 'PyCross/info', 'PyCross/gui', 'PyCross/gui', 'PyCross/gui/svg'],
-    package_data={'PyCross/gui/svg': ['*.svg'], 'PyCross/gui': ['*.glade']},
+    packages=find_packages(),
+    package_data={'PyCross.gui.svg': ['*.svg'], 'PyCross.gui': ['*.glade']},
     scripts=['bin/pycross'],
     classifiers=[
         'Development Status :: 3 - Alpha',
